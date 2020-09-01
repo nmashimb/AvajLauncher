@@ -13,19 +13,22 @@ public class Simulation {
        try {
             int runSimulationTimes = 0;
             File fileToRead = new File(args[0]); //How to read arg??
-            File simulationFile = new File("simulation.txt");
             Scanner textFileContent = new Scanner(fileToRead); 
             AircraftFactory aircraftFactory = new AircraftFactory();
             WeatherTower weatherTower = new WeatherTower();
 
-            try {
-                writer = new PrintWriter(simulationFile);
-            } catch (FileNotFoundException fne) {
-                System.out.println("Error: " + fne.getMessage());
-                return;
+            try{
+                File filename = new File("Simulation.txt");
+                if (filename.createNewFile()){
+                    System.out.println("file created!");
+                }
+                else
+                    System.out.println("file already created!");
+                writer = new PrintWriter(filename);
             }
-            if (simulationFile.exists() && !simulationFile.isDirectory())
-                writer.print("");
+            catch (IOException e){
+                e.printStackTrace();
+            }
             while (textFileContent.hasNextLine()){
                 String line = textFileContent.nextLine();
 
@@ -67,5 +70,6 @@ public class Simulation {
             System.out.println("Error");
             e.printStackTrace();
         }
+        writer.close();
     }
 }
